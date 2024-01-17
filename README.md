@@ -8,7 +8,7 @@ You don't need to run the app locally. You can access [https://tasksology.vercel
 
 If instead, you prefere to run the app locally follow the next steps.
 
-:warning: **If you are going to run the app locally**: Everything is connected to a deployed API , you can run that locally too, but you will need to update the axios. 
+:warning: **If you are going to run the app locally**: Everything is connected to a deployed API , you can run that locally too, but you will need to update the axios if you also want to run the server locally. You can find the server repo [here](https://github.com/rogeralexei/tasksology-server)
 
 ## Install depencies
 
