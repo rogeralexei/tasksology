@@ -7,7 +7,7 @@ import { textStyles } from '../typography'
 // green - red - black - white
 const variantColors = {
   green: colors.success,
-  red: colors.error,
+  red: colors.pending,
   black: colors.black,
   white: colors.white,
   blue: colors.blue

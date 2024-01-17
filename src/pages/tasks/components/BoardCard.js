@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { colors } from '../../../ui'
+import { Button, colors, textStyles } from '../../../ui'
 import { TaskModal } from './TaskModal'
 import { TaskForm } from './TaskForm'
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -27,10 +27,15 @@ const assignColor=(priority=>{
 export const BoardCard=({task})=>{
     const dispatch=useDispatch()
     const [openModal, setOpenModal]=useState(false)
+    const [openDeleteModal, setOpenDeleteModal]=useState(false)
     const [isDeletionLoading,setIsDeletionLoading]=useState(false)
 
     const handleClose=()=>{
         setOpenModal(false)
+    }
+
+    const handleCloseDeleteModal=()=>{
+        setOpenDeleteModal(false)
     }
 
     const handleDelete=async (e)=>{
@@ -45,7 +50,13 @@ export const BoardCard=({task})=>{
             toast.error("There was a problem deleting the task.")
         }finally{
             setIsDeletionLoading(false)
+            handleCloseDeleteModal()
         }
+    }
+
+    const handleOpenModal=(e)=>{
+        e.stopPropagation();
+        setOpenDeleteModal(true)
     }
 
   return (
@@ -55,13 +66,19 @@ export const BoardCard=({task})=>{
         <CardDescription>{task?.description}</CardDescription>
         <CardBottom>
         <CardPriority color={assignColor(task?.priority)}>{task?.priority}</CardPriority>
-        <DeleteButton onClick={handleDelete}>
-            {isDeletionLoading? <CircularProgress size={20} style={{'color': 'white'}}/>:<DeleteIcon fontSize='small'/>}
+        <DeleteButton onClick={handleOpenModal}>
+            <DeleteIcon fontSize='small'/>
         </DeleteButton>
         </CardBottom>
     </BoardCardContainer>
     <TaskModal open={openModal} handleClose={handleClose}>
         <TaskForm task={task} handleClose={handleClose}/>
+    </TaskModal>
+    <TaskModal open={openDeleteModal} handleClose={handleCloseDeleteModal}>
+        <DeleteContainer>
+        <DeleteTitle>Are you sure you want to delete this task?</DeleteTitle>
+        <Button variant="red" onClick={handleDelete}>{isDeletionLoading? <CircularProgress size={20} style={{'color': 'white'}}/>:"Delete Task"}</Button>
+        </DeleteContainer>
     </TaskModal>
     </>
   )
@@ -113,4 +130,13 @@ const DeleteButton=styled.div`
     color: ${colors.white};
     padding: 5px;
     border-radius: 10px;
+`
+
+const DeleteTitle=styled.div`
+    ${textStyles.title.h3}
+    margin-bottom: 15px;
+`
+
+const DeleteContainer=styled.div`
+    text-align: center;
 `
